@@ -28,8 +28,7 @@ I combine charts into one dashboard.
 
 ## Tableau Dashboard  
 View the interactive dashboard here:  
-[https://public.tableau.com/views/YourLoanRiskDashboard]  
-(Replace with your real link)  
+https://public.tableau.com/app/profile/.73913899/viz/Book2_17726051358170/LoanRiskDashboard?publish=yes
 
 ## Key Findings  
 Higher credit amounts link to more defaults.  
