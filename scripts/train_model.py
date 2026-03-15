@@ -1,8 +1,3 @@
-
-"""
-贷款风险预测模型训练脚本
-使用Scikit-learn构建分类模型
-"""
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split

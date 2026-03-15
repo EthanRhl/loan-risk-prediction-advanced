@@ -1,88 +1,188 @@
 # 贷款风险预测系统
 
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3.0-orange.svg)](https://scikit-learn.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
 ## 项目简介
 
-基于机器学习的贷款违约风险预测系统，使用Home Credit Default Risk数据集，通过逻辑回归、随机森林、梯度提升等模型预测贷款违约概率。
+本项目基于Home Credit Default Risk数据集，使用机器学习算法构建贷款违约风险预测模型。针对信贷风控场景中常见的类别不平衡问题，采用SMOTE过采样、代价敏感学习等技术优化模型召回率，提升对高风险客户的识别能力。
 
----
+## 数据来源
 
-## 核心成果
-
-| 指标 | 数值 | 说明 |
-|------|------|------|
-| 最佳模型 | 随机森林 | AUC最高 |
-| 测试集AUC | **0.78** | 5折交叉验证 |
-| 测试集准确率 | **75.3%** | 平衡数据集 |
-| 测试集召回率 | **72.1%** | 违约客户识别 |
-| 特征数量 | 25+ | 含衍生特征 |
-
----
+- **数据集名称**：Home Credit Default Risk
+- **数据来源**：Kaggle (https://www.kaggle.com/competitions/home-credit-default-risk)
+- **数据内容**：贷款申请者的详细信息及历史贷款记录
+- **目标变量**：TARGET（1=违约，0=正常还款）
 
 ## 技术栈
 
-- **编程语言**: Python 3.12
-- **机器学习**: Scikit-learn (逻辑回归、随机森林、梯度提升)
-- **数据处理**: Pandas, NumPy
-- **可视化**: Matplotlib, Seaborn
-- **开发环境**: Jupyter Notebook, PyCharm
+| 类别 | 工具/技术 |
+|------|-----------|
+| 编程语言 | Python 3.12 |
+| 机器学习 | Scikit-learn, XGBoost, LightGBM |
+| 数据处理 | Pandas, NumPy |
+| 类别不平衡处理 | SMOTE, ADASYN, class_weight |
+| 可视化 | Matplotlib, Seaborn |
+| 开发环境 | PyCharm 2024.3.5, Anaconda |
 
----
+## 项目结构
+
+```
+loan-risk-prediction-advanced/
+├── README.md                    # 项目文档
+├── requirements.txt             # Python依赖
+├── config.py                    # 配置文件
+├── data/                        # 数据目录
+│   ├── application_train.csv    # 训练数据（Kaggle下载）
+│   └── application_test.csv     # 测试数据
+├── src/
+│   ├── data_preprocessing.py    # 数据预处理
+│   ├── feature_engineering.py   # 特征工程
+│   ├── model_training.py        # 模型训练
+│   ├── model_evaluation.py      # 模型评估
+│   └── run_pipeline.py          # 主运行脚本
+├── models/                      # 保存的模型
+├── results/                     # 结果输出
+│   ├── model_evaluation.txt     # 评估报告
+│   └── feature_importance.csv   # 特征重要性
+└── notebooks/
+    └── loan_prediction.ipynb    # 分析笔记本
+```
 
 ## 快速开始
 
-### 1. 克隆项目
+### 1. 环境准备
 
-- git clone https://github.com/EthanRhl/loan-risk-prediction-advanced.git
-- cd loan-risk-prediction-advanced
+```bash
+# 创建虚拟环境
+conda create -n loan_risk python=3.12
+conda activate loan_risk
 
-### 2. 安装依赖
-- pip install -r requirements.txt
+# 安装依赖
+pip install -r requirements.txt
+```
 
-### 3. 准备数据
-- 从Kaggle下载 Home Credit Default Risk 数据集，将 application_train.csv 放入 data/ 目录。
+### 2. 数据准备
 
-### 4. 运行项目
-- python run_pipeline.py
+从Kaggle下载数据集：
+```bash
+# 方式1：手动下载
+# 访问 https://www.kaggle.com/competitions/home-credit-default-risk/data
+# 下载 application_train.csv 和 application_test.csv 到 data/ 目录
 
-### 5. 查看结果
-- 模型文件：models/loan_risk_model.pkl
-- 评估报告：results/model_evaluation.txt
-- 特征重要性：results/feature_importance.csv
+# 方式2：使用Kaggle CLI
+kaggle competitions download -c home-credit-default-risk
+unzip home-credit-default-risk.zip -d data/
+```
 
-## 项目结构
-loan-risk-prediction-advanced/
-├── README.md                 # 项目文档
-├── requirements.txt          # 依赖列表
-├── run_pipeline.py           # 主运行脚本
-├── data/                     # 数据目录
-│   └── application_train.csv
-├── src/                      # 源代码
-│   ├── data_preprocessing.py # 数据预处理
-│   ├── model_training.py     # 模型训练
-│   ├── model_evaluation.py   # 模型评估
-│   └── visualization.py      # 可视化
-├── models/                   # 保存的模型
-├── results/                  # 结果输出
-└── loan_prediction.ipynb     # 分析Notebook
+### 3. 运行模型
 
-## 模型对比
-| 模型 | 准确率    | 精确率    | 召回率    | F1分数   | AUC    |
-|------|--------|--------|--------|--------|--------|
-| 逻辑回归 | 0.5962 | 0.1131 | 0.5849 | 0.1896 | 0.6226 |
-| 随机森林 | 0.7220 | 0.1646 | 0.5998 | 0.2583 | 0.7302 |
-| 梯度提升 | 0.9195 | 0.5433 | 0.0189 | 0.0366 | 0.7503 |
+```bash
+# 运行完整流程
+python src/run_pipeline.py
 
-## 核心功能
-### 1. 数据预处理
-### 2. 模型训练（逻辑回归、随机森林、梯度提升）
-### 3. 模型评估
+# 或使用Jupyter Notebook
+jupyter notebook notebooks/loan_prediction.ipynb
+```
 
-## 业务价值
-- 1.风险识别：提前识别高违约风险客户，降低坏账率
-- 2.决策支持：为信贷审批提供量化依据
-- 3.效率提升：自动化评估，减少人工审核时间
+## 核心优化点
 
+### 1. 类别不平衡处理
+
+原始数据中违约客户仅占8%，导致模型偏向预测为正常还款。采用以下方法处理：
+
+```python
+# 方法1：SMOTE过采样
+from imblearn.over_sampling import SMOTE
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
+
+# 方法2：代价敏感学习
+model = LGBMClassifier(class_weight='balanced')
+
+# 方法3：调整分类阈值
+from sklearn.metrics import precision_recall_curve
+precisions, recalls, thresholds = precision_recall_curve(y_test, y_proba)
+```
+
+### 2. 特征工程
+
+| 特征类型 | 示例特征 | 说明 |
+|----------|----------|------|
+| 比率特征 | 收入/负债比、收入/信用额度 | 反映还款能力 |
+| 时间特征 | 就业年限、年龄 | 稳定性指标 |
+| 统计特征 | 历史贷款次数、历史违约次数 | 信用历史 |
+| 交叉特征 | 收入×年龄、信用额度/收入 | 组合特征 |
+
+### 3. 模型选择与调优
+
+| 模型 | 优势 | 适用场景 |
+|------|------|----------|
+| 逻辑回归 | 可解释性强 | 基线模型 |
+| 随机森林 | 抗过拟合 | 特征重要性分析 |
+| XGBoost | 性能优秀 | 生产环境 |
+| LightGBM | 训练速度快 | 大规模数据 |
+
+## 模型评估指标
+
+在信贷风控场景中，需要平衡以下指标：
+
+| 指标 | 说明 | 目标 |
+|------|------|------|
+| AUC | 整体区分能力 | > 0.75 |
+| 召回率 | 违约客户识别率 | > 0.30 |
+| 精确率 | 预测违约的准确性 | > 0.20 |
+| F1分数 | 精确率与召回率平衡 | > 0.25 |
+
+**注意**：在风控场景中，召回率比精确率更重要，因为漏掉高风险客户的代价更大。
+
+## 模型性能对比
+
+| 模型 | AUC  | 召回率  | 精确率  | F1分数 |
+|------|------|------|------|------|
+| 逻辑回归 | 0.63 | 0.56 | 0.12 | 0.20 |
+| 随机森林 | 0.71 | 0.14 | 0.23 | 0.18 |
+| XGBoost | 0.76 | 0.21 | 0.20 | 0.25 |
+| LightGBM | 0.76 | 0.09 | 0.40 | 0.15 |
+
+## 特征重要性分析
+
+TOP 10 重要特征：
+1. EMERGENCYSTATE_MODE
+2. FLAG_PHONE
+3. REG_CITY_NOT_WORK_CITY
+4. FLAG_OWN_CAR
+5. FLAG_DOCUMENT_3
+6. REGION_RATING_CLIENT
+7. ADDRESS_MISMATCH
+8. NAME_EDUCATION_TYPE
+9. FLAG_OWN_REALTY
+10. CODE_GENDER
+
+
+## 项目亮点
+
+1. **类别不平衡处理**：SMOTE + 代价敏感学习 + 阈值调整
+2. **多模型对比**：逻辑回归、随机森林、XGBoost、LightGBM
+3. **完整评估体系**：AUC、召回率、精确率、F1、混淆矩阵
+4. **特征工程**：比率特征、交叉特征、统计特征
+5. **可解释性**：特征重要性分析、SHAP值分析
+
+## 学习要点
+
+- 类别不平衡问题的处理方法
+- 信贷风控场景的模型评估指标选择
+- 特征工程在风控模型中的应用
+- XGBoost/LightGBM参数调优
+- 模型可解释性分析方法
+
+## 注意事项
+
+- 本项目仅用于学习交流
+- 数据来源于Kaggle公开数据集
+- 模型结果仅供参考，不构成实际信贷决策依据
+
+## 作者
+
+EthanRhl
+
+## 许可证
+
+MIT License
