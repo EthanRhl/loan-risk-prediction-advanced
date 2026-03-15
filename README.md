@@ -1,36 +1,23 @@
 # 贷款风险预测系统
 
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3.0-orange.svg)](https://scikit-learn.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
 ## 项目简介
 
-基于机器学习的贷款违约风险预测系统，使用Home Credit Default Risk数据集，通过逻辑回归、随机森林、梯度提升等模型预测贷款违约概率。
+本项目基于Home Credit Default Risk数据集，利用机器学习算法构建贷款违约风险预测模型，旨在提前识别高违约风险客户，降低金融机构的坏账率。
 
----
-
-## 核心成果
-
-| 指标 | 数值 | 说明 |
-|------|------|------|
-| 最佳模型 | 随机森林 | AUC最高 |
-| 测试集AUC | **0.78** | 5折交叉验证 |
-| 测试集准确率 | **75.3%** | 平衡数据集 |
-| 测试集召回率 | **72.1%** | 违约客户识别 |
-| 特征数量 | 25+ | 含衍生特征 |
-
----
+## 数据集
+- 数据集名称：Home Credit Default Risk
+- 数据来源：Kaggle
+- 数据内容：包含贷款申请者的详细信息及历史贷款记录
 
 ## 技术栈
+- 编程语言：Python 3.12
+- 机器学习库：Scikit-learn
+- 数据处理：Pandas, NumPy
+- 可视化：Matplotlib, Seaborn
 
-- **编程语言**: Python 3.12
-- **机器学习**: Scikit-learn (逻辑回归、随机森林、梯度提升)
-- **数据处理**: Pandas, NumPy
-- **可视化**: Matplotlib, Seaborn
-- **开发环境**: Jupyter Notebook, PyCharm
-
----
+## 核心成果
+- 最佳模型：梯度提升，AUC最高达0.7503
+- 测试集性能：准确率0.9195，召回率0.0189
 
 ## 快速开始
 
@@ -63,26 +50,7 @@ loan-risk-prediction-advanced/
 ├── src/                      # 源代码
 │   ├── data_preprocessing.py # 数据预处理
 │   ├── model_training.py     # 模型训练
-│   ├── model_evaluation.py   # 模型评估
 │   └── visualization.py      # 可视化
 ├── models/                   # 保存的模型
 ├── results/                  # 结果输出
 └── loan_prediction.ipynb     # 分析Notebook
-
-## 模型对比
-| 模型 | 准确率    | 精确率    | 召回率    | F1分数   | AUC    |
-|------|--------|--------|--------|--------|--------|
-| 逻辑回归 | 0.5962 | 0.1131 | 0.5849 | 0.1896 | 0.6226 |
-| 随机森林 | 0.7220 | 0.1646 | 0.5998 | 0.2583 | 0.7302 |
-| 梯度提升 | 0.9195 | 0.5433 | 0.0189 | 0.0366 | 0.7503 |
-
-## 核心功能
-### 1. 数据预处理
-### 2. 模型训练（逻辑回归、随机森林、梯度提升）
-### 3. 模型评估
-
-## 业务价值
-- 1.风险识别：提前识别高违约风险客户，降低坏账率
-- 2.决策支持：为信贷审批提供量化依据
-- 3.效率提升：自动化评估，减少人工审核时间
-
