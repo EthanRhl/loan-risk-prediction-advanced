@@ -1,7 +1,4 @@
-"""
-项目配置文件
-"""
-
+#项目配置文件
 # 数据配置
 DATA_CONFIG = {
     'train_file': 'data/application_train.csv',
@@ -26,9 +23,9 @@ IMBALANCE_CONFIG = {
 
 # 特征工程配置
 FEATURE_CONFIG = {
-    'max_missing_ratio': 0.5,  # 缺失值超过此比例的特征将被删除
-    'correlation_threshold': 0.9,  # 高相关性特征阈值
-    'n_top_features': 50  # 保留的top特征数量
+    'max_missing_ratio': 0.5,       # 缺失值超过此比例的特征将被删除
+    'correlation_threshold': 0.9,   # 高相关性特征阈值
+    'n_top_features': 50            # 保留的 top 特征数量（如需按重要性筛选）
 }
 
 # 输出配置
